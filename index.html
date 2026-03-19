@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cristopher Machado Piussi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080b0f;
+      --panel:     #0d1117;
+      --border:    #1c2530;
+      --border2:   #243040;
+
+      /* Marathon palette — hiper-saturadas */
+      --acid:      #b8f000;   /* green-yellow */
+      --plasma:    #00e5ff;   /* electric cyan */
+      --ember:     #ff4820;   /* hot orange-red */
+      --violet:    #9b4dff;   /* signal purple */
+      --amber:     #ffb800;   /* warning amber */
+
+      --text:      #d8e4f0;
+      --muted:     #5a7080;
+      --scan:      rgba(0,229,255,.04);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    a, button, [role="button"] { cursor: none !important; }
+
+    /* ── CURSOR ── */
+    #cur {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 10px; height: 10px;
+      background: var(--acid);
+      clip-path: polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+      transform: translate(-50%,-50%);
+      transition: width .15s, height .15s;
+      mix-blend-mode: screen;
+    }
+    #cur.big { width: 28px; height: 28px; }
+
+    /* ── SCANLINES ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 998; pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 3px,
+        var(--scan) 3px, var(--scan) 4px
+      );
+    }
+
+    /* ── GRID BG ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .25;
+    }
+
+    section, nav, footer { position: relative; z-index: 1; }
+
+    /* ── HUD CORNERS helper ── */
+    .hud {
+      position: relative;
+    }
+    .hud::before, .hud::after,
+    .hud > .hud-b::before, .hud > .hud-b::after {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+      border-color: var(--plasma);
+      border-style: solid;
+    }
+    .hud::before  { top: 0;    left: 0;  border-width: 1px 0 0 1px; }
+    .hud::after   { top: 0;    right: 0; border-width: 1px 1px 0 0; }
+    .hud > .hud-b::before { bottom: 0; left: 0;  border-width: 0 0 1px 1px; }
+    .hud > .hud-b::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,11,15,.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-id {
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .nav-sigil {
+      width: 28px; height: 28px;
+      border: 1px solid var(--acid);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .nav-sigil::before {
+      content: '';
+      position: absolute; inset: 3px;
+      background: var(--acid);
+      clip-path: polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+    }
+    .nav-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text);
+    }
+    .nav-name span { color: var(--acid); }
+
+    .nav-status {
+      display: flex; align-items: center; gap: .5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .68rem; color: var(--muted);
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--acid);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .2s;
+      display: flex; align-items: center; gap: .35rem;
+    }
+    .nav-links a::before { content: '//'; color: var(--border2); }
+    .nav-links a:hover { color: var(--acid); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 3rem 3.5rem;
+      overflow: hidden;
+    }
+
+    /* Atmospheric glows */
+    .glow {
+      position: absolute; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: 0;
+    }
+    .g1 { width:600px;height:600px; top:-150px; right:-100px; background:rgba(155,77,255,.18); }
+    .g2 { width:400px;height:400px; bottom:0;   left:-80px;  background:rgba(0,229,255,.12); }
+    .g3 { width:250px;height:250px; top:40%;    left:35%;    background:rgba(184,240,0,.08); }
+
+    /* Dithered stripe */
+    .dither-stripe {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--acid) 0px, var(--acid) 2px,
+        transparent 2px, transparent 4px,
+        var(--plasma) 4px, var(--plasma) 6px,
+        transparent 6px, transparent 8px
+      );
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-sys {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .7rem; color: var(--muted);
+      letter-spacing: .1em; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .4s .1s forwards;
+    }
+    .hero-sys .hl { color: var(--plasma); }
+
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(4.5rem, 10vw, 12rem);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      opacity: 0; animation: fadeUp .6s .2s forwards;
+    }
+
+    .hero-title .t-outline {
+      -webkit-text-stroke: 1.5px var(--text);
+      color: transparent;
+    }
+    .hero-title .t-acid  { color: var(--acid); }
+    .hero-title .t-shift {
+      position: relative; display: inline-block;
+      color: var(--text);
+    }
+    /* Chromatic aberration effect on last word */
+    .hero-title .t-shift::before,
+    .hero-title .t-shift::after {
+      content: attr(data-text);
+      position: absolute; top: 0; left: 0;
+      font-family: inherit; font-size: inherit; font-weight: inherit;
+      line-height: inherit; letter-spacing: inherit; text-transform: inherit;
+      pointer-events: none;
+    }
+    .hero-title .t-shift::before {
+      color: var(--ember); opacity: .5;
+      transform: translate(-3px, 1px);
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+    .hero-title .t-shift::after {
+      color: var(--plasma); opacity: .5;
+      transform: translate(3px, -1px);
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+
+    .hero-bottom {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-top: 2.5rem; gap: 2rem;
+      opacity: 0; animation: fadeUp .6s .42s forwards;
+    }
+
+    .hero-tags {
+      display: flex; flex-direction: column; gap: .5rem;
+    }
+    .hero-tag-row {
+      display: flex; align-items: center; gap: .5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+    }
+    .htag {
+      padding: .2rem .7rem;
+      font-size: .65rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      border: 1px solid;
+    }
+    .htag-acid   { color: var(--acid);   border-color: var(--acid);   background: rgba(184,240,0,.08); }
+    .htag-plasma { color: var(--plasma); border-color: var(--plasma); background: rgba(0,229,255,.07); }
+    .htag-violet { color: var(--violet); border-color: var(--violet); background: rgba(155,77,255,.07); }
+    .htag-ember  { color: var(--ember);  border-color: var(--ember);  background: rgba(255,72,32,.07); }
+    .hero-tag-row .sep { color: var(--border2); }
+
+    .hero-ctas { display: flex; gap: .75rem; flex-shrink: 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: none;
+      transition: all .2s;
+    }
+    .btn-acid {
+      background: var(--acid); color: var(--bg);
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-acid:hover { background: #d4ff1a; }
+    .btn-wire {
+      background: transparent; color: var(--plasma);
+      border: 1px solid var(--plasma);
+    }
+    .btn-wire:hover { background: rgba(0,229,255,.1); }
+
+    /* ── IDENT STRIP ── */
+    .ident-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 3rem;
+      display: flex; align-items: center; gap: 3rem;
+      overflow: hidden; background: rgba(13,17,23,.6);
+    }
+    .ident-item {
+      display: flex; align-items: center; gap: .75rem;
+      flex-shrink: 0;
+    }
+    .ident-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase;
+    }
+    .ident-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .9rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--text);
+    }
+    .ident-div { width: 1px; height: 1.5rem; background: var(--border2); flex-shrink: 0; }
+
+    /* ── SOBRE ── */
+    #sobre {
+      padding: 7rem 3rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sec-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .65rem; color: var(--acid); letter-spacing: .18em;
+      text-transform: uppercase; margin-bottom: .75rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .sec-eyebrow::before { content: '>_'; color: var(--muted); }
+
+    .sobre-left h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      font-weight: 900; line-height: .95;
+      letter-spacing: -.01em; text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .sobre-left h2 em {
+      font-style: normal;
+      -webkit-text-stroke: 1px var(--plasma);
+      color: transparent;
+    }
+
+    .sobre-left p {
+      color: var(--muted); font-size: .97rem; margin-bottom: 1.1rem; max-width: 50ch;
+    }
+    .sobre-left p strong { color: var(--text); font-weight: 500; }
+
+    /* stat grid */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border); margin-top: 2.5rem;
+    }
+    .stat-cell {
+      padding: 1.25rem; border-right: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .stat-cell:nth-child(1)::before { background: var(--acid); }
+    .stat-cell:nth-child(2)::before { background: var(--plasma); }
+    .stat-cell:nth-child(3)::before { background: var(--violet); }
+    .stat-n {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.5rem; font-weight: 900; line-height: 1;
+    }
+    .stat-cell:nth-child(1) .stat-n { color: var(--acid); }
+    .stat-cell:nth-child(2) .stat-n { color: var(--plasma); }
+    .stat-cell:nth-child(3) .stat-n { color: var(--violet); }
+    .stat-l {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem; color: var(--muted);
+      letter-spacing: .1em; text-transform: uppercase; margin-top: .3rem;
+    }
+
+    /* contact */
+    .contact-block { margin-top: 2.5rem; }
+    .contact-block .sec-eyebrow { margin-bottom: 1.25rem; }
+    .clink {
+      display: flex; align-items: center; gap: .75rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem; color: var(--muted);
+      text-decoration: none; padding: .6rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color .2s, padding-left .2s;
+    }
+    .clink:hover { color: var(--acid); padding-left: .5rem; }
+    .clink .ci {
+      width: 1.8rem; height: 1.8rem;
+      border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; transition: border-color .2s;
+    }
+    .clink:hover .ci { border-color: var(--acid); }
+
+    /* skill tags */
+    .skill-group { margin-bottom: 1.5rem; }
+    .sg-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .6rem; color: var(--muted);
+      letter-spacing: .15em; text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .sg-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .chip {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem; letter-spacing: .06em;
+      padding: .25rem .7rem;
+      border: 1px solid; text-transform: uppercase;
+    }
+    .c-acid   { color: var(--acid);   border-color: rgba(184,240,0,.4);   background: rgba(184,240,0,.06); }
+    .c-plasma { color: var(--plasma); border-color: rgba(0,229,255,.3);    background: rgba(0,229,255,.05); }
+    .c-violet { color: var(--violet); border-color: rgba(155,77,255,.35);  background: rgba(155,77,255,.06); }
+    .c-ember  { color: var(--ember);  border-color: rgba(255,72,32,.35);   background: rgba(255,72,32,.05); }
+    .c-amber  { color: var(--amber);  border-color: rgba(255,184,0,.3);    background: rgba(255,184,0,.05); }
+
+    /* ── REPOS ── */
+    #repos {
+      padding: 7rem 3rem 8rem;
+    }
+
+    .repos-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 3.5rem;
+    }
+    .repos-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 900; line-height: .9;
+      text-transform: uppercase; letter-spacing: -.02em;
+    }
+    .repos-header h2 span { color: var(--acid); }
+
+    .repos-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .68rem; color: var(--muted);
+      padding-bottom: .4rem; text-align: right;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex; gap: .4rem; margin-bottom: 2.5rem; flex-wrap: wrap;
+    }
+    .fbtn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .35rem .9rem;
+      border: 1px solid var(--border2); background: transparent;
+      color: var(--muted); cursor: none; transition: all .2s;
+    }
+    .fbtn:hover, .fbtn.active { border-color: var(--acid); color: var(--acid); background: rgba(184,240,0,.06); }
+
+    /* CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+    }
+
+    .repo-card {
+      background: var(--panel);
+      padding: 1.75rem;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+      transition: background .2s;
+      position: relative; overflow: hidden;
+      min-height: 200px;
+    }
+
+    /* accent bar top */
+    .repo-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .repo-card.cat-web::before     { background: var(--acid); }
+    .repo-card.cat-game::before    { background: var(--violet); }
+    .repo-card.cat-mobile::before  { background: var(--plasma); }
+    .repo-card.cat-outros::before  { background: var(--amber); }
+
+    .repo-card:hover { background: #111820; }
+    .repo-card:hover::before { transform: scaleX(1); }
+
+    /* glitch flash on hover */
+    .repo-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(184,240,0,.03) 0%, transparent 60%);
+      opacity: 0; transition: opacity .2s;
+    }
+    .repo-card:hover::after { opacity: 1; }
+
+    .rc-cat {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .6rem; letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: .9rem; display: flex; align-items: center; gap: .4rem;
+    }
+    .rc-cat-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+    }
+    .cat-web .rc-cat-dot     { background: var(--acid); }
+    .cat-game .rc-cat-dot    { background: var(--violet); }
+    .cat-mobile .rc-cat-dot  { background: var(--plasma); }
+    .cat-outros .rc-cat-dot  { background: var(--amber); }
+    .cat-web .rc-cat     { color: var(--acid); }
+    .cat-game .rc-cat    { color: var(--violet); }
+    .cat-mobile .rc-cat  { color: var(--plasma); }
+    .cat-outros .rc-cat  { color: var(--amber); }
+
+    .rc-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      letter-spacing: .01em; line-height: 1.15;
+      color: var(--text); margin-bottom: .6rem;
+      text-transform: uppercase;
+    }
+
+    .rc-desc {
+      font-size: .82rem; color: var(--muted);
+      line-height: 1.6; flex: 1;
+    }
+
+    .rc-footer {
+      margin-top: 1.25rem;
+      display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .rc-chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .rc-chip {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .58rem; letter-spacing: .06em; text-transform: uppercase;
+      padding: .18rem .55rem;
+      border: 1px solid var(--border2); color: #4a6070;
+    }
+
+    .rc-arrow {
+      width: 2rem; height: 2rem; flex-shrink: 0;
+      border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; color: var(--border2);
+      transition: all .25s;
+    }
+    .repo-card:hover .rc-arrow {
+      border-color: var(--acid); color: var(--acid);
+      transform: rotate(45deg);
+    }
+
+    /* hidden state for filter */
+    .repo-card.hidden {
+      display: none;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--panel);
+    }
+    .footer-id {
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .footer-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .footer-copy {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem; color: var(--muted);
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .65rem; color: var(--muted); text-decoration: none;
+      letter-spacing: .1em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--acid); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: .9rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+      .nav-status { display: none; }
+      #hero { padding: 0 1.5rem 3rem; }
+      .hero-title { font-size: clamp(3.5rem, 15vw, 7rem); }
+      .hero-bottom { flex-direction: column; align-items: flex-start; }
+      .ident-strip { padding: 1rem 1.5rem; gap: 1.5rem; overflow-x: auto; }
+      #sobre { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+      #repos { padding: 5rem 1.5rem; }
+      .cards-grid { grid-template-columns: 1fr 1fr; }
+      .repos-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-id">
+      <div class="nav-sigil"></div>
+      <span class="nav-name">Cristopher <span>Piussi</span></span>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SYS:ONLINE // TAU CETI RS
+    </div>
+    <ul class="nav-links">
+      <li><a href="#sobre">Ident</a></li>
+      <li><a href="#repos">Repos</a></li>
+      <li><a href="#contato">Comm</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+    <div class="dither-stripe"></div>
+
+    <div class="hero-content">
+      <p class="hero-sys">
+        <span class="hl">RUNNER_ID:</span> cristopher_machado_piussi //
+        <span class="hl">CLASS:</span> developer //
+        <span class="hl">SECTOR:</span> rs.br
+      </p>
+
+      <h1 class="hero-title">
+        <span class="t-outline">CRISTOPHER</span><br>
+        <span class="t-shift" data-text="PIUSSI">PIUSSI<span class="t-acid">.</span></span>
+      </h1>
+
+      <div class="hero-bottom">
+        <div class="hero-tags">
+          <div class="hero-tag-row">
+            <span class="htag htag-acid">Web Dev</span>
+            <span class="sep">//</span>
+            <span class="htag htag-violet">Game Dev</span>
+            <span class="sep">//</span>
+            <span class="htag htag-plasma">Mobile</span>
+          </div>
+          <div class="hero-tag-row">
+            <span class="htag htag-ember">Suporte TI</span>
+            <span class="sep">//</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted)">
+              Senac RS · Gran Faculdade
+            </span>
+          </div>
+        </div>
+        <div class="hero-ctas">
+          <a class="btn btn-acid" href="#repos">[ REPOS ]</a>
+          <a class="btn btn-wire" href="https://github.com/Hymdell" target="_blank">GITHUB ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IDENT STRIP -->
+  <div class="ident-strip reveal">
+    <div class="ident-item">
+      <div><p class="ident-label">Formação</p><p class="ident-value">ADS — Gran Faculdade</p></div>
+    </div>
+    <div class="ident-div"></div>
+    <div class="ident-item">
+      <div><p class="ident-label">Técnico</p><p class="ident-value">Informática — Senac RS</p></div>
+    </div>
+    <div class="ident-div"></div>
+    <div class="ident-item">
+      <div><p class="ident-label">Empresa</p><p class="ident-value">Projeção Informática</p></div>
+    </div>
+    <div class="ident-div"></div>
+    <div class="ident-item">
+      <div><p class="ident-label">Localização</p><p class="ident-value">Rio Grande do Sul, BR</p></div>
+    </div>
+    <div class="ident-div"></div>
+    <div class="ident-item">
+      <div><p class="ident-label">Status</p><p class="ident-value" style="color:var(--acid)">● Disponível</p></div>
+    </div>
+  </div>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="sobre-left reveal">
+      <p class="sec-eyebrow">Ident / Sobre</p>
+      <h2>Sempre<br><em>Melhorando</em></h2>
+      <p>
+        Sou <strong>Cristopher Machado Piussi</strong>, tecnólogo em <strong>Análise e Desenvolvimento de Sistemas</strong>
+        pela Gran Faculdade e técnico em Informática pelo <strong>Senac RS</strong>.
+      </p>
+      <p>
+        Atuo na <strong>Projeção Informática</strong> com manutenção de hardware e desenvolvimento de sistemas web —
+        trabalhando com front-end, back-end e banco de dados no dia a dia.
+      </p>
+      <p>
+        Nos projetos pessoais exploro <strong>games com Godot</strong> e aplicativos mobile com Flutter, incluindo
+        integrações IoT com ESP32 e Firebase.
+      </p>
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <p class="stat-n">18</p>
+          <p class="stat-l">Repositórios</p>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-n">3+</p>
+          <p class="stat-l">Áreas</p>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-n">∞</p>
+          <p class="stat-l">Evolução</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sobre-right reveal">
+      <p class="sec-eyebrow">Stack / Tecnologias</p>
+      <div class="skill-group">
+        <p class="sg-title">Frontend</p>
+        <div class="sg-chips">
+          <span class="chip c-acid">HTML5</span>
+          <span class="chip c-acid">CSS3</span>
+          <span class="chip c-acid">JavaScript</span>
+          <span class="chip c-acid">Vue.js</span>
+          <span class="chip c-acid">Tailwind</span>
+          <span class="chip c-acid">Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="sg-title">Backend &amp; Banco</p>
+        <div class="sg-chips">
+          <span class="chip c-ember">PHP</span>
+          <span class="chip c-ember">MySQL</span>
+          <span class="chip c-ember">MariaDB</span>
+          <span class="chip c-ember">Firebase</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="sg-title">Mobile &amp; IoT</p>
+        <div class="sg-chips">
+          <span class="chip c-plasma">Flutter</span>
+          <span class="chip c-plasma">Dart</span>
+          <span class="chip c-plasma">ESP32</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="sg-title">Game Dev</p>
+        <div class="sg-chips">
+          <span class="chip c-violet">Godot</span>
+          <span class="chip c-violet">GDScript</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="sg-title">Ferramentas</p>
+        <div class="sg-chips">
+          <span class="chip c-amber">Git</span>
+          <span class="chip c-amber">GitHub</span>
+        </div>
+      </div>
+
+      <div class="contact-block" id="contato">
+        <p class="sec-eyebrow">Comm / Contato</p>
+        <a class="clink" href="mailto:cristopherprofissional@gmail.com">
+          <span class="ci">✉</span>cristopherprofissional@gmail.com
+        </a>
+        <a class="clink" href="https://www.linkedin.com/in/cristopher-machado-piussi-094755237/" target="_blank">
+          <span class="ci">in</span>linkedin — cristopher piussi
+        </a>
+        <a class="clink" href="https://github.com/Hymdell" target="_blank">
+          <span class="ci">gh</span>github.com/Hymdell
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPOS -->
+  <section id="repos">
+    <div class="repos-header reveal">
+      <h2>REPOSITÓRIOS<span>.</span></h2>
+      <div class="repos-meta">
+        <p>GITHUB / HYMDELL</p>
+        <p>18 REPOSITÓRIOS</p>
+      </div>
+    </div>
+
+    <div class="filter-bar reveal">
+      <button class="fbtn active" data-filter="all">[ TODOS ]</button>
+      <button class="fbtn" data-filter="web">[ WEB ]</button>
+      <button class="fbtn" data-filter="game">[ GAME DEV ]</button>
+      <button class="fbtn" data-filter="mobile">[ MOBILE ]</button>
+      <button class="fbtn" data-filter="outros">[ OUTROS ]</button>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- GAME -->
+      <a class="repo-card cat-game reveal" href="https://github.com/Hymdell/Felpojam" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Game Dev</p>
+        <h3 class="rc-name">FelpoJam</h3>
+        <p class="rc-desc">Jogo desenvolvido durante a FelpoJam em equipe de 5 pessoas. Do conceito ao produto final em dias.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Godot</span>
+            <span class="rc-chip">GDScript</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- MOBILE -->
+      <a class="repo-card cat-mobile reveal" href="https://github.com/Hymdell/Projeto-Efficient-Water" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Mobile · IoT</p>
+        <h3 class="rc-name">Efficient Water</h3>
+        <p class="rc-desc">App Flutter que controla válvula solenóide via ESP32 e lê umidade do solo em tempo real via Firebase.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Flutter</span>
+            <span class="rc-chip">Firebase</span>
+            <span class="rc-chip">ESP32</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- WEB -->
+      <a class="repo-card cat-web reveal" href="https://github.com/Hymdell/Projeto-QQTech" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Web · Estágio</p>
+        <h3 class="rc-name">Sistema de Férias</h3>
+        <p class="rc-desc">Sistema web para solicitação e aprovação de férias, desenvolvido durante estágio na Quero-Quero.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">PHP</span>
+            <span class="rc-chip">JavaScript</span>
+            <span class="rc-chip">MySQL</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- WEB -->
+      <a class="repo-card cat-web reveal" href="https://github.com/Hymdell/e-commerce_senac" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Web · Acadêmico</p>
+        <h3 class="rc-name">E-commerce Senac</h3>
+        <p class="rc-desc">Projeto integrador do curso técnico: e-commerce com catálogo, carrinho e painel admin.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">JavaScript</span>
+            <span class="rc-chip">HTML</span>
+            <span class="rc-chip">CSS</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- WEB -->
+      <a class="repo-card cat-web reveal" href="https://github.com/marianobitelo/Reservas_SENAC_1.0" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Web · Equipe</p>
+        <h3 class="rc-name">Reservas SENAC</h3>
+        <p class="rc-desc">Sistema colaborativo para reserva de salas e materiais com controle de disponibilidade.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">PHP</span>
+            <span class="rc-chip">Bootstrap</span>
+            <span class="rc-chip">MariaDB</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- WEB -->
+      <a class="repo-card cat-web reveal" href="https://github.com/marianobitelo/ChamadoSENAC05" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Web · Equipe</p>
+        <h3 class="rc-name">Sistema de Chamados</h3>
+        <p class="rc-desc">Beta do sistema de registro de chamados técnicos do SENAC, desenvolvido em equipe.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">PHP</span>
+            <span class="rc-chip">MySQL</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- MOBILE -->
+      <a class="repo-card cat-mobile reveal" href="https://github.com/Hymdell/expense_tracker" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Mobile</p>
+        <h3 class="rc-name">Expense Tracker</h3>
+        <p class="rc-desc">App de controle de gastos pessoais com cadastro e categorização de despesas.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Flutter</span>
+            <span class="rc-chip">Dart</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- MOBILE -->
+      <a class="repo-card cat-mobile reveal" href="https://github.com/Hymdell/dice_roll" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Mobile</p>
+        <h3 class="rc-name">Dice Roll</h3>
+        <p class="rc-desc">App simples de rolagem de dados desenvolvido durante curso de Flutter na Udemy.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Flutter</span>
+            <span class="rc-chip">Dart</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- MOBILE -->
+      <a class="repo-card cat-mobile reveal" href="https://github.com/Hymdell/quiz_app" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Mobile</p>
+        <h3 class="rc-name">Quiz App</h3>
+        <p class="rc-desc">Quiz interativo sobre Flutter desenvolvido durante o curso na Udemy.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Flutter</span>
+            <span class="rc-chip">Dart</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- OUTROS -->
+      <a class="repo-card cat-outros reveal" href="https://github.com/Hymdell/Aulas_JAVA" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Acadêmico</p>
+        <h3 class="rc-name">Aulas Java</h3>
+        <p class="rc-desc">Exercícios e projetos da disciplina de Java do curso técnico no Senac RS.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Java</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- OUTROS -->
+      <a class="repo-card cat-outros reveal" href="https://github.com/Hymdell/Aulas_Web_Senac" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Acadêmico</p>
+        <h3 class="rc-name">Aulas Web Senac</h3>
+        <p class="rc-desc">HTML, CSS e JavaScript aplicados nas aulas do curso técnico.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">HTML</span>
+            <span class="rc-chip">CSS</span>
+            <span class="rc-chip">JS</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+      <!-- MOBILE -->
+      <a class="repo-card cat-mobile reveal" href="https://github.com/Hymdell/Aulas_Flutter" target="_blank">
+        <div class="hud"><div class="hud-b"></div>
+        <p class="rc-cat"><span class="rc-cat-dot"></span> Acadêmico · Mobile</p>
+        <h3 class="rc-name">Aulas Flutter</h3>
+        <p class="rc-desc">Introdução ao desenvolvimento mobile com Flutter durante o curso no Senac RS.</p>
+        <div class="rc-footer">
+          <div class="rc-chips">
+            <span class="rc-chip">Flutter</span>
+            <span class="rc-chip">Dart</span>
+          </div>
+          <div class="rc-arrow">↗</div>
+        </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-id">
+      <div class="nav-sigil" style="width:22px;height:22px"></div>
+      <span class="footer-name" style="font-size:.85rem">Cristopher Machado Piussi</span>
+    </div>
+    <span class="footer-copy">© 2025 · RS, BRASIL · RUNNER ONLINE</span>
+    <div class="footer-links">
+      <a href="https://github.com/Hymdell" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/cristopher-machado-piussi-094755237/" target="_blank">LinkedIn</a>
+      <a href="mailto:cristopherprofissional@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('big'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+    });
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Filter
+    document.querySelectorAll('.fbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.repo-card').forEach(card => {
+          if (f === 'all' || card.classList.contains('cat-' + f)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
