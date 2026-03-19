@@ -15,8 +15,8 @@
   --warm:    #b89050;   /* âmbar quente — substitui amber */
 
   /* sobrenome — aberração cromática neutra */
-  --shift-top: #8fba2a;  /* ciano acinzentado */
-  --shift-bot: #b89050;  /* sépia quente */
+  --shift-top: transparent;  /* ciano acinzentado */
+  --shift-bot: transparent;  /* sépia quente */
 
   --text:    #c8d8e4;
   --muted:   #4e6272;
@@ -177,24 +177,6 @@ nav {
 .t-solid { color: var(--text); display: block; }
 .t-shift {
   display: inline-block; position: relative; color: var(--text);
-}
-/* aberração cromática: tons neutros, não vibrantes */
-.t-shift::before, .t-shift::after {
-  content: attr(data-text);
-  position: absolute; top: 0; left: 0;
-  font-family: inherit; font-size: inherit; font-weight: inherit;
-  line-height: inherit; letter-spacing: inherit; text-transform: inherit;
-  pointer-events: none;
-}
-.t-shift::before {
-  color: var(--shift-top); opacity: .45;
-  transform: translate(-3px, 1px);
-  clip-path: polygon(0 0,100% 0,100% 45%,0 45%);
-}
-.t-shift::after {
-  color: var(--shift-bot); opacity: .45;
-  transform: translate(3px, -1px);
-  clip-path: polygon(0 55%,100% 55%,100% 100%,0 100%);
 }
 
 .hero-bottom {
