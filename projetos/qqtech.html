@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Férias — Cristopher Piussi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div id="cur"></div>
+
+  <nav>
+    <div class="nav-id">
+      <div class="nav-sigil"></div>
+      <span class="nav-name">Cristopher Piussi</span>
+    </div>
+    <a class="nav-back" href="../index.html">← Voltar</a>
+  </nav>
+
+  <main>
+    <div class="proj-hero">
+      <div class="dither-stripe"></div>
+      <div class="glow g1" style="background:rgba(42,184,212,.1)"></div>
+      <p class="proj-eyebrow">Web · Estágio · Quero-Quero</p>
+      <h1 class="proj-title">SISTEMA DE FÉRIAS</h1>
+      <p class="proj-tagline">Sistema web para solicitação e aprovação de férias, desenvolvido durante estágio na Quero-Quero.</p>
+      <div class="proj-meta-row">
+        <div class="meta-item"><span class="meta-label">Empresa</span><span class="meta-value">Quero-Quero</span></div>
+        <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Estágio</span></div>
+        <div class="meta-item"><span class="meta-label">Stack</span><span class="meta-value">PHP · JS · MySQL</span></div>
+        <div class="meta-item"><span class="meta-label">Repositório</span><span class="meta-value">Público</span></div>
+      </div>
+    </div>
+
+    <div class="proj-body">
+      <div class="body-text reveal">
+        <h2>Sobre o projeto</h2>
+        <p>
+          O <strong>Sistema de Férias</strong> foi desenvolvido durante o estágio na <strong>Quero-Quero</strong>
+          como solução para o processo de solicitação e aprovação de férias dos funcionários.
+        </p>
+        <p>
+          Funcionários podem registrar suas solicitações de férias pelo sistema, informando o período
+          desejado. Gestores têm acesso a um painel de aprovação onde podem <strong>aprovar ou rejeitar</strong>
+          as solicitações, além de gerenciar as informações da equipe.
+        </p>
+        <p>
+          O sistema foi construído com <strong>PHP</strong> no back-end integrado a um banco <strong>MySQL</strong>,
+          com interface web em <strong>HTML, CSS e JavaScript</strong>.
+        </p>
+
+        <h2 style="margin-top:2.25rem">Funcionalidades</h2>
+        <p>Solicitação de férias pelo funcionário com escolha de período, painel do gestor para aprovar ou rejeitar solicitações, gerenciamento de equipe e histórico de solicitações por funcionário.</p>
+      </div>
+
+      <aside class="proj-sidebar reveal">
+        <div class="sidebar-block">
+          <p class="sb-label">Tecnologias</p>
+          <div class="sb-tags">
+            <span class="chip c-a">HTML</span>
+            <span class="chip c-a">JavaScript</span>
+            <span class="chip c-e">PHP</span>
+            <span class="chip c-e">MySQL</span>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <p class="sb-label">Repositório</p>
+          <a class="sb-link" href="https://github.com/Hymdell/Projeto-QQTech" target="_blank">
+            ↗ github.com/Hymdell/Projeto-QQTech
+          </a>
+        </div>
+        <div class="sidebar-block">
+          <p class="sb-label">Tags</p>
+          <div class="sb-tags">
+            <span class="chip c-a">Web</span>
+            <span class="chip c-p">Estágio</span>
+            <span class="chip c-e">Full Stack</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="screenshots-section reveal">
+      <h2>Screenshots</h2>
+      <!--
+        INSTRUÇÕES: Coloque as imagens em assets/prints/qqtech/
+        Exemplo:
+        <div class="screenshots-grid">
+          <div class="screenshot-slot"><img src="../assets/prints/qqtech/dashboard.png" alt="Dashboard" /></div>
+          <div class="screenshot-slot"><img src="../assets/prints/qqtech/solicitacao.png" alt="Solicitação" /></div>
+        </div>
+      -->
+      <div class="screenshots-note">
+        <strong>Adicione seus prints aqui</strong>
+        Coloque as imagens em <code>assets/prints/qqtech/</code> e substitua este bloco pelo grid acima.
+      </div>
+    </div>
+
+    <div class="proj-nav">
+      <a class="proj-nav-link" href="sistema-hymdell.html">← Sistema Hymdell</a>
+      <a class="proj-nav-link" href="helpdesk.html">Próximo: Helpdesk →</a>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Cristopher Machado Piussi</span>
+    <div class="footer-links">
+      <a href="https://github.com/Hymdell" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/cristopher-machado-piussi-094755237/" target="_blank">LinkedIn</a>
+    </div>
+    <span class="footer-copy">© 2025 · RS, Brasil</span>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('big'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+    });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

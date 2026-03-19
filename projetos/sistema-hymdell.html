@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Hymdell — Cristopher Piussi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div id="cur"></div>
+
+  <nav>
+    <div class="nav-id">
+      <div class="nav-sigil"></div>
+      <span class="nav-name">Cristopher Piussi</span>
+    </div>
+    <a class="nav-back" href="../index.html">← Voltar</a>
+  </nav>
+
+  <main>
+    <div class="proj-hero">
+      <div class="dither-stripe"></div>
+      <div class="glow g1" style="background:rgba(143,186,42,.1)"></div>
+      <p class="proj-eyebrow">Web · Sistema · Pessoal</p>
+      <h1 class="proj-title">SISTEMA HYMDELL</h1>
+      <p class="proj-tagline">Sistema de chamados desenvolvido para controle e registro das minhas manutenções em computadores e notebooks.</p>
+      <div class="proj-meta-row">
+        <div class="meta-item"><span class="meta-label">Frontend</span><span class="meta-value">HTML · JS · CSS</span></div>
+        <div class="meta-item"><span class="meta-label">Backend</span><span class="meta-value">PHP</span></div>
+        <div class="meta-item"><span class="meta-label">Banco</span><span class="meta-value">MySQL</span></div>
+        <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Projeto Pessoal</span></div>
+      </div>
+    </div>
+
+    <div class="proj-body">
+      <div class="body-text reveal">
+        <h2>Sobre o projeto</h2>
+        <p>
+          O <strong>Sistema Hymdell</strong> é um sistema de chamados desenvolvido para organizar e registrar
+          as manutenções que realizo em computadores e notebooks na <strong>Projeção Informática</strong>.
+        </p>
+        <p>
+          O sistema permite abertura, acompanhamento e encerramento de chamados, com registro do cliente,
+          equipamento, problema relatado e solução aplicada. Foi construído com <strong>PHP</strong> no
+          back-end, banco <strong>MySQL</strong> e interface em <strong>HTML, CSS e JavaScript</strong>.
+        </p>
+        <p>
+          A estrutura do projeto é dividida em <code>frontend/</code> e <code>backend/</code>, mantendo
+          uma separação clara de responsabilidades mesmo sendo um projeto solo.
+        </p>
+
+        <h2 style="margin-top:2.25rem">Funcionalidades</h2>
+        <p>Abertura e registro de chamados com dados do cliente e equipamento, acompanhamento do status de cada chamado, registro da solução aplicada e histórico de manutenções por cliente.</p>
+      </div>
+
+      <aside class="proj-sidebar reveal">
+        <div class="sidebar-block">
+          <p class="sb-label">Tecnologias</p>
+          <div class="sb-tags">
+            <span class="chip c-a">HTML</span>
+            <span class="chip c-a">JavaScript</span>
+            <span class="chip c-a">CSS</span>
+            <span class="chip c-e">PHP</span>
+            <span class="chip c-e">MySQL</span>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <p class="sb-label">Repositório</p>
+          <a class="sb-link" href="https://github.com/Hymdell/Sistema_hymdell" target="_blank">
+            ↗ github.com/Hymdell/Sistema_hymdell
+          </a>
+        </div>
+        <div class="sidebar-block">
+          <p class="sb-label">Tags</p>
+          <div class="sb-tags">
+            <span class="chip c-a">Web</span>
+            <span class="chip c-a">Full Stack</span>
+            <span class="chip c-w">Pessoal</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="screenshots-section reveal">
+      <h2>Screenshots</h2>
+      <!--
+        INSTRUÇÕES: Coloque as imagens em assets/prints/sistema-hymdell/
+        e substitua os slots abaixo.
+
+        Exemplo:
+        <div class="screenshots-grid">
+          <div class="screenshot-slot"><img src="../assets/prints/sistema-hymdell/dashboard.png" alt="Dashboard" /></div>
+          <div class="screenshot-slot"><img src="../assets/prints/sistema-hymdell/chamados.png" alt="Lista de chamados" /></div>
+        </div>
+      -->
+      <div class="screenshots-note">
+        <strong>Adicione seus prints aqui</strong>
+        Coloque as imagens em <code>assets/prints/sistema-hymdell/</code> e substitua este bloco pelo grid acima.
+      </div>
+    </div>
+
+    <div class="proj-nav">
+      <a class="proj-nav-link" href="felpojam.html">← FelpoJam</a>
+      <a class="proj-nav-link" href="qqtech.html">Próximo: Sistema de Férias →</a>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Cristopher Machado Piussi</span>
+    <div class="footer-links">
+      <a href="https://github.com/Hymdell" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/cristopher-machado-piussi-094755237/" target="_blank">LinkedIn</a>
+    </div>
+    <span class="footer-copy">© 2025 · RS, Brasil</span>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('big'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+    });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

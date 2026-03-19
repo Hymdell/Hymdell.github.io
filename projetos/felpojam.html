@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FelpoJam — Cristopher Piussi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div id="cur"></div>
+
+  <nav>
+    <div class="nav-id">
+      <div class="nav-sigil"></div>
+      <span class="nav-name">Cristopher Piussi</span>
+    </div>
+    <a class="nav-back" href="../index.html">← Voltar</a>
+  </nav>
+
+  <main>
+    <div class="proj-hero">
+      <div class="dither-stripe"></div>
+      <div class="glow g1" style="background:rgba(74,127,160,.12)"></div>
+      <p class="proj-eyebrow">Game Dev · Game Jam · Equipe</p>
+      <h1 class="proj-title">FELPOJAM</h1>
+      <p class="proj-tagline">Jogo desenvolvido em equipe durante a FelpoJam — do conceito ao produto final em poucos dias.</p>
+      <div class="proj-meta-row">
+        <div class="meta-item"><span class="meta-label">Engine</span><span class="meta-value">Godot 4</span></div>
+        <div class="meta-item"><span class="meta-label">Linguagem</span><span class="meta-value">GDScript</span></div>
+        <div class="meta-item"><span class="meta-label">Formato</span><span class="meta-value">Game Jam</span></div>
+        <div class="meta-item"><span class="meta-label">Equipe</span><span class="meta-value">5 pessoas</span></div>
+      </div>
+    </div>
+
+    <div class="proj-body">
+      <div class="body-text reveal">
+        <h2>Sobre o projeto</h2>
+        <p>
+          A <strong>FelpoJam</strong> é uma game jam onde as equipes são formadas no próprio evento e têm
+          poucos dias para criar um jogo do zero. Participei como desenvolvedor em uma equipe de 5 pessoas
+          reunidas pela organização da jam.
+        </p>
+        <p>
+          O desafio principal foi alinhar conceito, dividir responsabilidades e entregar algo jogável dentro
+          do prazo. Utilizamos <strong>Godot 4</strong> com <strong>GDScript</strong> como stack principal.
+        </p>
+        <p>
+          O repositório inclui o código-fonte completo na pasta <code>source/</code> e o jogo compilado
+          em <code>compiled/</code> — pronto para rodar sem precisar da engine instalada.
+        </p>
+
+        <h2 style="margin-top:2.25rem">Desafios técnicos</h2>
+        <p>
+          Com o tempo limitado de uma jam, as decisões de arquitetura precisam ser rápidas. A estratégia
+          foi focar no <strong>loop central de gameplay</strong> antes de qualquer polimento visual,
+          garantindo que o jogo fosse funcional e jogável antes do prazo.
+        </p>
+      </div>
+
+      <aside class="proj-sidebar reveal">
+        <div class="sidebar-block">
+          <p class="sb-label">Tecnologias</p>
+          <div class="sb-tags">
+            <span class="chip c-s">Godot 4</span>
+            <span class="chip c-s">GDScript</span>
+            <span class="chip c-w">Git</span>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <p class="sb-label">Repositório</p>
+          <a class="sb-link" href="https://github.com/Hymdell/Felpojam" target="_blank">
+            ↗ github.com/Hymdell/Felpojam
+          </a>
+        </div>
+        <div class="sidebar-block">
+          <p class="sb-label">Tags</p>
+          <div class="sb-tags">
+            <span class="chip c-s">Game Dev</span>
+            <span class="chip c-s">Jam</span>
+            <span class="chip c-w">Equipe</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- SCREENSHOTS -->
+    <div class="screenshots-section reveal">
+      <h2>Screenshots</h2>
+      <!--
+        INSTRUÇÕES: Coloque as imagens em assets/prints/felpojam/
+        e substitua os slots abaixo pelos <img> correspondentes.
+
+        Exemplo:
+        <div class="screenshots-grid">
+          <div class="screenshot-slot"><img src="../assets/prints/felpojam/banner.png" alt="Banner" /></div>
+          <div class="screenshot-slot"><img src="../assets/prints/felpojam/fase1.png" alt="Fase 1" /></div>
+          <div class="screenshot-slot"><img src="../assets/prints/felpojam/menu.png" alt="Menu" /></div>
+          <div class="screenshot-slot"><img src="../assets/prints/felpojam/gameplay.png" alt="Gameplay" /></div>
+        </div>
+      -->
+      <div class="screenshots-grid">
+        <div class="screenshot-slot placeholder">banner.png</div>
+        <div class="screenshot-slot placeholder">fase1.png</div>
+        <div class="screenshot-slot placeholder">fase1 (2).png</div>
+        <div class="screenshot-slot placeholder">menu.png</div>
+      </div>
+    </div>
+
+    <div class="proj-nav">
+      <a class="proj-nav-link" href="../index.html">← Todos os projetos</a>
+      <a class="proj-nav-link" href="sistema-hymdell.html">Próximo: Sistema Hymdell →</a>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Cristopher Machado Piussi</span>
+    <div class="footer-links">
+      <a href="https://github.com/Hymdell" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/cristopher-machado-piussi-094755237/" target="_blank">LinkedIn</a>
+    </div>
+    <span class="footer-copy">© 2025 · RS, Brasil</span>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('big'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+    });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
