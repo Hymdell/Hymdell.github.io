@@ -26,7 +26,7 @@
       <div class="glow g1" style="background:rgba(74,127,160,.12)"></div>
       <p class="proj-eyebrow">Game Dev · Game Jam · Equipe</p>
       <h1 class="proj-title">FELPOJAM</h1>
-      <p class="proj-tagline">Jogo desenvolvido em equipe durante a FelpoJam — do conceito ao produto final em poucos dias.</p>
+      <p class="proj-tagline">Jogo de aprovação de documentos com carimbo — você é o prefeito-rato e suas escolhas importam.</p>
       <div class="proj-meta-row">
         <div class="meta-item"><span class="meta-label">Engine</span><span class="meta-value">Godot 4</span></div>
         <div class="meta-item"><span class="meta-label">Linguagem</span><span class="meta-value">GDScript</span></div>
@@ -39,24 +39,27 @@
       <div class="body-text reveal">
         <h2>Sobre o projeto</h2>
         <p>
-          A <strong>FelpoJam</strong> é uma game jam onde as equipes são formadas no próprio evento e têm
-          poucos dias para criar um jogo do zero. Participei como desenvolvedor em uma equipe de 5 pessoas
-          reunidas pela organização da jam.
+          Jogo desenvolvido durante a <strong>FelpoJam</strong>, uma game jam onde as equipes são formadas
+          no próprio evento. Participei como desenvolvedor em uma equipe de 5 pessoas reunidas pela
+          organização da jam, com poucos dias para criar um jogo do zero.
         </p>
         <p>
-          O desafio principal foi alinhar conceito, dividir responsabilidades e entregar algo jogável dentro
-          do prazo. Utilizamos <strong>Godot 4</strong> com <strong>GDScript</strong> como stack principal.
+          O jogador assume o papel de um <strong>prefeito-rato</strong> responsável por analisar e aprovar
+          (ou rejeitar) documentos e petições da cidade usando um carimbo. O botão direito do mouse carimba
+          o documento e o esquerdo interage — e as escolhas feitas impactam o desenrolar da história.
         </p>
         <p>
-          O repositório inclui o código-fonte completo na pasta <code>source/</code> e o jogo compilado
-          em <code>compiled/</code> — pronto para rodar sem precisar da engine instalada.
+          O jogo conta com arte original desenhada pela equipe, cenas de escritório com perspectiva
+          isométrica, diálogos com personagens e múltiplas fases de documentos com narrativa cômica.
+          O repositório inclui o código-fonte em <code>source/</code> e o jogo compilado em
+          <code>compiled/</code>.
         </p>
 
         <h2 style="margin-top:2.25rem">Desafios técnicos</h2>
         <p>
-          Com o tempo limitado de uma jam, as decisões de arquitetura precisam ser rápidas. A estratégia
-          foi focar no <strong>loop central de gameplay</strong> antes de qualquer polimento visual,
-          garantindo que o jogo fosse funcional e jogável antes do prazo.
+          Com o tempo curto de uma jam, a estratégia foi focar no <strong>loop central de gameplay</strong>
+          — o sistema de carimbar e interagir com documentos — antes de qualquer polimento adicional.
+          A arte foi produzida em paralelo pela equipe enquanto a mecânica era programada.
         </p>
       </div>
 
@@ -76,36 +79,35 @@
           </a>
         </div>
         <div class="sidebar-block">
-          <p class="sb-label">Tags</p>
+          <p class="sb-label">Destaques</p>
           <div class="sb-tags">
-            <span class="chip c-s">Game Dev</span>
-            <span class="chip c-s">Jam</span>
+            <span class="chip c-s">Game Jam</span>
+            <span class="chip c-s">Arte original</span>
+            <span class="chip c-w">Narrativa</span>
             <span class="chip c-w">Equipe</span>
           </div>
         </div>
       </aside>
     </div>
 
-    <!-- SCREENSHOTS -->
     <div class="screenshots-section reveal">
       <h2>Screenshots</h2>
-      <!--
-        INSTRUÇÕES: Coloque as imagens em assets/prints/felpojam/
-        e substitua os slots abaixo pelos <img> correspondentes.
-
-        Exemplo:
-        <div class="screenshots-grid">
-          <div class="screenshot-slot"><img src="../assets/prints/felpojam/banner.png" alt="Banner" /></div>
-          <div class="screenshot-slot"><img src="../assets/prints/felpojam/fase1.png" alt="Fase 1" /></div>
-          <div class="screenshot-slot"><img src="../assets/prints/felpojam/menu.png" alt="Menu" /></div>
-          <div class="screenshot-slot"><img src="../assets/prints/felpojam/gameplay.png" alt="Gameplay" /></div>
-        </div>
-      -->
       <div class="screenshots-grid">
-        <div class="screenshot-slot placeholder">banner.png</div>
-        <div class="screenshot-slot placeholder">fase1.png</div>
-        <div class="screenshot-slot placeholder">fase1 (2).png</div>
-        <div class="screenshot-slot placeholder">menu.png</div>
+        <div class="screenshot-slot" style="grid-column:1/-1; aspect-ratio:16/9">
+          <img src="../assets/felpojam/banner.png" alt="Banner — o prefeito-rato" />
+        </div>
+        <div class="screenshot-slot">
+          <img src="../assets/felpojam/menu.png" alt="Menu principal" />
+        </div>
+        <div class="screenshot-slot">
+          <img src="../assets/felpojam/fase1-1.png" alt="Gameplay — documentos na mesa" />
+        </div>
+        <div class="screenshot-slot">
+          <img src="../assets/felpojam/fase1-2.png" alt="Gameplay — visão do escritório" />
+        </div>
+        <div class="screenshot-slot">
+          <img src="../assets/felpojam/fase1-3.png" alt="Tutorial de controles" />
+        </div>
       </div>
     </div>
 
