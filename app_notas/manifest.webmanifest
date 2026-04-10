@@ -1,0 +1,1 @@
+{"name":"Organizer DB","short_name":"Organizer","description":"Gerenciador Pessoal Cyberpunk","start_url":"/app_notas/","display":"standalone","background_color":"#080b0f","theme_color":"#0d1219","lang":"en","scope":"/app_notas/","icons":[{"src":"icon.png","sizes":"512x512","type":"image/png"}]}

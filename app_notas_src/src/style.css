@@ -1,0 +1,129 @@
+:root {
+  /* Tech / Cyberpunk Palette from Portfolio */
+  --bg: #080b0f;
+  --panel: #0d1219;
+  --surface-border: #19222e;
+  --primary-color: #8fba2a; /* acid */
+  --primary-glow: rgba(143, 186, 42, 0.25);
+  --accent-color: #2ab8d4; /* plasma */
+  --text-main: #c8d8e4;
+  --text-muted: #4e6272;
+  --danger-color: #c44020; /* ember */
+
+  /* Task / Note colors */
+  --color-acid: #8fba2a;
+  --color-plasma: #2ab8d4;
+  --color-slate: #4a7fa0;
+  --color-ember: #c44020;
+  --color-warm: #b89050;
+
+  /* Strict Geometry */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-full: 0;
+  
+  --transition-fast: 0.15s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Dither stripe for headers */
+.dither-stripe {
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--primary-color) 0, var(--primary-color) 2px,
+    transparent 2px, transparent 4px,
+    var(--accent-color) 4px, var(--accent-color) 6px,
+    transparent 6px, transparent 8px
+  );
+}
+
+.glass-panel {
+  background: var(--panel);
+  border: 1px solid var(--surface-border);
+  position: relative;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+/* Forms & Inputs */
+.input-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  display: flex;
+}
+.input-label::before { content: '>_'; color: var(--text-muted); margin-right: 0.4rem; }
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--surface-border);
+  color: var(--text-main);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.65rem 1.5rem; border: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem; font-weight: normal; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: all var(--transition-fast);
+  text-decoration: none; position: relative;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--bg);
+  clip-path: polygon(7px 0%,100% 0%,calc(100% - 7px) 100%,0% 100%);
+}
+.btn-primary:hover { background: #a0cc35; }
+
+.btn-secondary {
+  background: transparent; color: var(--accent-color); border: 1px solid var(--accent-color);
+}
+.btn-secondary:hover { background: rgba(42,184,212,.08); }
+
+/* Utilities */
+.text-center { text-align: center; }
+.mt-4 { margin-top: 1rem; }
+.w-full { width: 100%; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface-border); }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
