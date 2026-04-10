@@ -1,7 +1,10 @@
 <template>
+  <!-- Mobile sidebar backdrop -->
+  <div v-if="showSidebar && isMobile" class="sidebar-backdrop" @click="showSidebar = false"></div>
+
   <div class="dashboard-layout" :class="{ 'sidebar-collapsed': !showSidebar }">
     <!-- SIDEBAR: Calendar -->
-    <aside class="sidebar glass-panel" v-if="showSidebar">
+    <aside class="sidebar glass-panel" :class="{ 'sidebar-open': showSidebar, 'sidebar-mobile': isMobile }" v-show="showSidebar">
       <div class="sidebar-header">
         <div class="user-info">
           <div class="avatar">{{ userName.charAt(0).toUpperCase() }}</div>
@@ -211,7 +214,7 @@
         </div><!-- /kanban-container -->
 
         <!-- NOTES PANEL -->
-        <aside class="notes-section glass-panel" v-if="showNotes">
+        <aside class="notes-section glass-panel" v-show="showNotes">
           <div class="widget-header">
             <h3 class="widget-title">Notas</h3>
             <button class="btn-plus-cyber" @click="addNote" title="Nova Nota">
@@ -280,7 +283,7 @@
         <button class="btn-cyber-sm accent" @click="saveEvent">Salvar</button>
       </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script setup>
@@ -296,9 +299,15 @@ const userName = ref('Usuário')
 const userEmail = ref('')
 const userId = ref(null)
 
+const isMobile = ref(window.innerWidth <= 768)
 const showSidebar = ref(window.innerWidth > 900)
 const showCalendar = ref(window.innerWidth > 1100)
 const showNotes = ref(window.innerWidth > 900)
+
+// Update isMobile on resize
+window.addEventListener('resize', () => {
+  isMobile.value = window.innerWidth <= 768
+})
 
 const tasks = ref([])
 const notes = ref([])
@@ -334,7 +343,10 @@ const changeMonth = (val) => {
   if (targetMonth.value > 11) { targetMonth.value = 0; targetYear.value++ }
   if (targetMonth.value < 0)  { targetMonth.value = 11; targetYear.value-- }
 }
-const selectDate = (dStr) => { selectedDate.value = dStr }
+const selectDate = (dStr) => {
+  selectedDate.value = dStr
+  if (isMobile.value) showSidebar.value = false
+}
 const toggleCalendar = () => { showCalendar.value = !showCalendar.value }
 
 /* -- KANBAN GROUPING -- */
@@ -855,13 +867,45 @@ const deleteModalEvent = async () => {
 .today-text { text-align: center; margin-top: 0.5rem; }
 .date-badge { font-family: 'Share Tech Mono'; font-size: 0.8rem; color: var(--accent-color); }
 
-/* ── Mobile ── */
+/* ── Mobile Drawer ── */
+.sidebar-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(8,11,15,0.6); backdrop-filter: blur(2px);
+  z-index: 98;
+}
+
 @media (max-width: 768px) {
-  .dashboard-layout { flex-direction: column; height: auto; min-height: 100vh; overflow: auto; }
-  .sidebar { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid var(--surface-border); }
-  .main-content { overflow: visible; }
-  .kanban-wrapper { flex-direction: column; overflow: visible; }
-  .kanban-container { overflow-x: auto; }
-  .notes-section { width: 100%; min-width: unset; border-left: none; border-top: 1px solid var(--surface-border); }
+  .dashboard-layout { height: 100vh; overflow: hidden; }
+  
+  /* Sidebar becomes a fixed left drawer */
+  .sidebar {
+    position: fixed;
+    top: 0; left: -100%;
+    width: 85vw; max-width: 320px;
+    height: 100vh;
+    z-index: 99;
+    border-right: 1px solid var(--primary-color) !important;
+    border-bottom: none;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+  .sidebar.sidebar-open { left: 0; }
+
+  /* Main content fills whole screen */
+  .main-content { width: 100%; overflow: hidden; }
+  
+  .kanban-wrapper { flex-direction: column; overflow-y: auto; }
+  .kanban-container { overflow-x: auto; flex-wrap: nowrap; }
+  .kanban-column { min-width: 85vw; }
+
+  /* Notes appear below kanban when toggled */
+  .notes-section {
+    width: 100%;
+    min-width: unset;
+    border-left: none;
+    border-top: 1px solid var(--surface-border);
+    max-height: 50vh;
+    overflow-y: auto;
+  }
 }
 </style>
