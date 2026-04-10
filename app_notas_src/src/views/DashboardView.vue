@@ -105,7 +105,7 @@
                    <!-- If it is a Title (Category) -->
                    <template v-if="element.isTitle">
                       <div style="flex:1;">
-                        <input v-model="element.text" class="transparent-input cat-input no-drag" @blur="updateTask(element)"/>
+                        <textarea v-model="element.text" class="transparent-input cat-input no-drag fluid-text" @input="resizeTextarea" @blur="updateTask(element)" placeholder="Título da Seção"></textarea>
                       </div>
                       <!-- Add colors to title too -->
                       <div class="color-picker hover-show">
@@ -125,7 +125,7 @@
                         <span class="checkmark"></span>
                       </label>
                       <div style="flex:1;">
-                         <input v-model="element.text" class="transparent-input task-input no-drag" @blur="updateTask(element)"/>
+                         <textarea v-model="element.text" class="transparent-input task-input no-drag fluid-text" @input="resizeTextarea" @blur="updateTask(element)" placeholder="Descreva a tarefa..."></textarea>
                       </div>
                       
                       <!-- Color Picker Hover -->
@@ -410,6 +410,7 @@ const loadData = (uid) => {
     let loadedTasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     loadedTasks.sort((a, b) => (a.order || 0) - (b.order || 0))
     tasks.value = loadedTasks
+    reflowTextareas()
   })
 
   const qNotes = query(collection(db, 'notes'), where('userId', '==', uid))
@@ -438,6 +439,7 @@ const addCategory = async () => {
         text: newTaskText.value,
         isTitle: true,
         userId: userId.value,
+        color: '', // Explicit empty color to ensure persistence
         order: tasks.value.length,
         createdAt: serverTimestamp()
       })
@@ -452,7 +454,7 @@ const addTask = async () => {
       text: newTaskText.value,
       done: false,
       isTitle: false,
-      color: '',
+      color: '', // Explicit empty color to ensure persistence
       order: tasks.value.length,
       userId: userId.value,
       createdAt: serverTimestamp()
