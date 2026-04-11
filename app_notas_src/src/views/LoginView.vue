@@ -67,12 +67,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
-  signInWithPopup, 
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider 
 } from 'firebase/auth'
 import { auth } from '../firebase/config'
@@ -83,6 +85,22 @@ const password = ref('')
 const loading = ref(false)
 const errorMsg = ref('')
 const isLoginMode = ref(true)
+
+// Handle result from signInWithRedirect (Google redirect flow)
+onMounted(async () => {
+  try {
+    const result = await getRedirectResult(auth)
+    if (result?.user) {
+      router.push('/')
+    }
+  } catch (error) {
+    if (error.code === 'auth/unauthorized-domain') {
+      errorMsg.value = 'Este domínio não está autorizado no Firebase. Adicione-o nos domínios autorizados.'
+    } else if (error.code) {
+      errorMsg.value = `Erro ao conectar com Google: ${error.code}`
+    }
+  }
+})
 
 const handleLogin = async () => {
   if (!email.value || !password.value) {
@@ -125,10 +143,19 @@ const handleGoogleLogin = async () => {
     await signInWithPopup(auth, provider)
     router.push('/')
   } catch (error) {
-    console.error(error)
-    // Only show error if it's not a user-cancelled popup
-    if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
-      errorMsg.value = 'Erro ao conectar com Google.'
+    console.error('Google login error:', error.code, error.message)
+    if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+      // User closed the popup — not an error
+    } else if (error.code === 'auth/unauthorized-domain') {
+      errorMsg.value = 'Este domínio não está autorizado no Firebase. Adicione-o nos domínios autorizados do console Firebase (Authentication → Settings → Authorized domains).'
+    } else if (error.code === 'auth/popup-blocked') {
+      // Browser blocked the popup — fall back to redirect
+      errorMsg.value = 'Popup bloqueado. Redirecionando...'
+      await signInWithRedirect(auth, provider)
+    } else if (error.code === 'auth/network-request-failed') {
+      errorMsg.value = 'Erro de conexão. Verifique sua internet.'
+    } else {
+      errorMsg.value = `Erro ao conectar com Google: ${error.code}`
     }
   } finally {
     loading.value = false

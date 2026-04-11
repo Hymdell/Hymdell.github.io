@@ -300,9 +300,28 @@ const userEmail = ref('')
 const userId = ref(null)
 
 const isMobile = ref(window.innerWidth <= 768)
-const showSidebar = ref(window.innerWidth > 900)
-const showCalendar = ref(window.innerWidth > 1100)
-const showNotes = ref(window.innerWidth > 900)
+
+// Restore persisted UI state from localStorage (fall back to window-width defaults)
+const showSidebar = ref(
+  localStorage.getItem('organizer_showSidebar') !== null
+    ? localStorage.getItem('organizer_showSidebar') === 'true'
+    : window.innerWidth > 900
+)
+const showCalendar = ref(
+  localStorage.getItem('organizer_showCalendar') !== null
+    ? localStorage.getItem('organizer_showCalendar') === 'true'
+    : window.innerWidth > 1100
+)
+const showNotes = ref(
+  localStorage.getItem('organizer_showNotes') !== null
+    ? localStorage.getItem('organizer_showNotes') === 'true'
+    : window.innerWidth > 900
+)
+
+// Persist whenever these values change
+watch(showSidebar, (v) => localStorage.setItem('organizer_showSidebar', v))
+watch(showCalendar, (v) => localStorage.setItem('organizer_showCalendar', v))
+watch(showNotes, (v) => localStorage.setItem('organizer_showNotes', v))
 
 // Update isMobile on resize
 window.addEventListener('resize', () => {
@@ -553,7 +572,9 @@ const handleLogout = async () => {
   notes.value = []
   events.value = []
   await signOut(auth)
-  router.push('/login')
+  // Force a full page navigation so that the login screen renders fresh
+  // without needing a manual F5
+  window.location.href = '/app_notas/login'
 }
 
 /* -- EVENT MODAL -- */
